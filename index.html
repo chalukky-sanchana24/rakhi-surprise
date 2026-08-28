@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Raksha Bandhan Surprise! ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
+
+        :root {
+            --primary-bg: #ffe6ea;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-main: #4a4a4a;
+            --accent: #ff4d6d;
+            --button-hover: #ff2a55;
+            --no-button: #adb5bd;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(135deg, #ffe6ea 0%, #fdf6e3 100%);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            max-height: 800px;
+            position: relative;
+            background: transparent;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.05);
+        }
+
+        .scene {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            z-index: 2;
+            transition: opacity 0.4s ease;
+        }
+
+        .scene.active {
+            display: flex;
+            opacity: 1;
+            animation: fadeInZoom 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+
+        img {
+            max-width: 85%;
+            max-height: 35vh;
+            object-fit: contain;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 4px solid white;
+            background: white;
+        }
+
+        h1, h2 {
+            color: var(--accent);
+            margin: 5px 0 15px 0;
+            font-weight: 800;
+            font-size: 1.6rem;
+            line-height: 1.3;
+        }
+
+        p {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin: 8px 0;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(255, 77, 109, 0.4);
+            transition: all 0.2s ease;
+            margin-top: 20px;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 10;
+        }
+
+        .btn:active {
+            transform: scale(0.92);
+            box-shadow: 0 2px 8px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            position: relative;
+            width: 100%;
+            justify-content: center;
+            height: 60px;
+        }
+
+        .btn-yes { background: var(--accent); }
+        .btn-no { background: var(--no-button); box-shadow: 0 6px 15px rgba(173, 181, 189, 0.4); position: relative; }
+
+        .fade-text { opacity: 0; }
+        
+        .scene.active .fade-text {
+            animation: slideUpFade 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.5s !important; }
+        .delay-2 { animation-delay: 1.2s !important; }
+        .delay-3 { animation-delay: 1.9s !important; }
+        .delay-4 { animation-delay: 2.6s !important; }
+        .delay-btn { animation-delay: 3.3s !important; opacity: 0; }
+
+        @keyframes fadeInZoom {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-20vh) scale(1.2) rotate(45deg); opacity: 0; }
+        }
+
+        .hearts-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.6);
+            font-size: 20px;
+            animation: floatUp 5s linear forwards;
+        }
+
+        #noMsg {
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 800;
+            height: 24px;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" id="app">
+        <div class="hearts-container" id="hearts-bg"></div>
+
+        <div id="scene1" class="scene active">
+            <img src="shinchan1.jpg" alt="Shinchan">
+            <h2 class="fade-text delay-1">Hey Monkey... 👀</h2>
+            <p class="fade-text delay-2">I made something for you!</p>
+            <button class="btn fade-text delay-3" id="btn-1-to-2">Open My Surprise ❤️</button>
+        </div>
+
+        <div id="scene2" class="scene">
+            <img src="shin2.jpg" alt="Shinchan Playful">
+            <h2 class="fade-text delay-1">Do you wanna see it? 👀</h2>
+            
+            <div class="btn-group fade-text delay-2">
+                <button class="btn btn-yes" id="btn-2-to-3">YES ❤️</button>
+                <button class="btn btn-no" id="noBtn">NO 😏</button>
+                <div id="noMsg"></div>
+            </div>
+        </div>
+
+        <div id="scene3" class="scene">
+            <img src="shin4.jpg" alt="Sibling Bond">
+            <p class="fade-text delay-1">From fighting over the remote...</p>
+            <p class="fade-text delay-2">To eating my snacks...</p>
+            <p class="fade-text delay-3">You are the most annoying person ever 😂</p>
+            <p class="fade-text delay-4" style="color: var(--accent); font-size: 1.3rem;">But I still tolerate you 😌❤️</p>
+            <button class="btn fade-text delay-btn" id="btn-3-to-4">Continue ❤️</button>
+        </div>
+
+        <div id="scene4" class="scene">
+            <img src="shinchan1.jpg" alt="Anticipation">
+            <h2 class="fade-text delay-1">Okay Monkey...</h2>
+            <p class="fade-text delay-2">Today is your special day 🎀</p>
+            <button class="btn fade-text delay-3" id="btn-4-to-5">Show me! 💌</button>
+        </div>
+
+        <div id="scene5" class="scene">
+            <img src="shin3.png" alt="Happy Rakhi">
+            <h1 class="fade-text delay-1">Happy Raksha Bandhan Monkey ❤️</h1>
+            <p class="fade-text delay-2">My favourite brother ❤️ & My Forever ATM Machine 😁</p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            function nextScene(current, next) {
+                const currentEl = document.getElementById('scene' + current);
+                const nextEl = document.getElementById('scene' + next);
+                
+                if (!currentEl || !nextEl) return;
+
+                currentEl.style.opacity = '0';
+                
+                setTimeout(() => {
+                    currentEl.classList.remove('active');
+                    nextEl.classList.add('active');
+                    
+                    if (next === 5) {
+                        triggerConfetti();
+                    }
+                }, 400); 
+            }
+
+            const btn1to2 = document.getElementById('btn-1-to-2');
+            if (btn1to2) {
+                btn1to2.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    nextScene(1, 2);
+                });
+            }
+
+            const btn2to3 = document.getElementById('btn-2-to-3');
+            if (btn2to3) {
+                btn2to3.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    nextScene(2, 3);
+                });
+            }
+
+            const btn3to4 = document.getElementById('btn-3-to-4');
+            if (btn3to4) {
+                btn3to4.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    nextScene(3, 4);
+                });
+            }
+
+            const btn4to5 = document.getElementById('btn-4-to-5');
+            if (btn4to5) {
+                btn4to5.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    nextScene(4, 5);
+                });
+            }
+
+            const noBtn = document.getElementById('noBtn');
+            const noMsg = document.getElementById('noMsg');
+            const appContainer = document.getElementById('app');
+            
+            let noAttempts = 0;
+            const funnyMessages = [
+                "Dei Monkey 😂 YES ah press pannu!",
+                "Still trying NO-aa? 😭😂",
+                "NO option kedaiyathu 😌❤️"
+            ];
+
+            function moveButton(e) {
+                e.preventDefault(); 
+                
+                if (noMsg) {
+                    noMsg.style.opacity = '1';
+                    noMsg.innerText = funnyMessages[Math.min(noAttempts, funnyMessages.length - 1)];
+                }
+                noAttempts++;
+
+                if (appContainer && noBtn) {
+                    const containerRect = appContainer.getBoundingClientRect();
+                    const btnRect = noBtn.getBoundingClientRect();
+                    
+                    const padding = 30; 
+                    const maxX = containerRect.width - btnRect.width - padding;
+                    const maxY = containerRect.height - btnRect.height - padding;
+
+                    const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+                    const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+                    noBtn.style.position = 'fixed';
+                    noBtn.style.left = randomX + 'px';
+                    noBtn.style.top = randomY + 'px';
+                    noBtn.style.zIndex = '100';
+                }
+            }
+
+            if (noBtn) {
+                noBtn.addEventListener('mouseover', moveButton, { passive: false });
+                noBtn.addEventListener('touchstart', moveButton, { passive: false });
+            }
+
+            function createHeart() {
+                const heartsBg = document.getElementById('hearts-bg');
+                if (!heartsBg) return;
+
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                const emojis = ['❤️', '🎀', '✨'];
+                heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                
+                const duration = Math.random() * 3 + 4;
+                heart.style.animationDuration = duration + 's';
+                
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+
+                heartsBg.appendChild(heart);
+
+                setTimeout(() => {
+                    if (heart.parentNode === heartsBg) {
+                        heart.remove();
+                    }
+                }, duration * 1000);
+            }
+
+            setInterval(createHeart, 800);
+
+            function triggerConfetti() {
+                for(let i=0; i<30; i++) {
+                    setTimeout(createHeart, i * 100); 
+                }
+            }
+        });
+    </script>
+</body>
+</html>
